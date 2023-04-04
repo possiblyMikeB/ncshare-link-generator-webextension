@@ -13,23 +13,23 @@ import { AVAILABLE_APPS, generateRegularUrl } from './generator';
 import { getPref, setPref } from './prefs';
 
 
-function buildUrl(hubUrl, app) {
+function buildUrl(contName, app) {
     const parts = GitUrlParse(window.location.href);
     const repoUrl = `${parts.protocol}://${parts.source}/${parts.full_name}`;
-    return generateRegularUrl(hubUrl, repoUrl, parts.ref, app, parts.name + '/' + parts.filepath);
+    return generateRegularUrl(contName, repoUrl, parts.ref, app, parts.name + '/' + parts.filepath);
 }
-function copyGeneratedUrl(hubUrl, app) {
-    navigator.clipboard.writeText(buildUrl(hubUrl, app));
+function copyGeneratedUrl(contName, app) {
+    navigator.clipboard.writeText(buildUrl(contName, app));
 }
 
-function openGeneratedUrl(hubUrl, app) {
-    window.open(buildUrl(hubUrl, app));
+function openGeneratedUrl(contName, app) {
+    window.open(buildUrl(contName, app));
 }
 
 function Form() {
-    const [hubUrl, setHubUrl] = useState(getPref('hub-url', ''));
+    const [contName, setcontName] = useState(getPref('cont-name', ''));
     const [app, setApp] = useState(getPref('app', 'classic'));
-    const [isValidHubUrl, setIsValidHubUrl] = useState(false);
+    const [isValidcontName, setIsValidcontName] = useState(false);
     const [finishedCopying, setFinishedCopying] = useState(false);
 
     useEffect(() => {
@@ -37,17 +37,17 @@ function Form() {
             // TODO: Use potentially new API end-point to
             //  validate container name against list of available
 
-            //new URL(hubUrl);
-            // hubUrl is a valid URL
-            setIsValidHubUrl(true);
+            //new URL(contName);
+            // contName is a valid URL
+            setIsValidcontName(true);
         } catch (_) {
-            setIsValidHubUrl(false);
+            setIsValidcontName(false);
         }
-    }, [hubUrl]);
+    }, [contName]);
 
     useEffect(() => {
-        setPref('hub-url', hubUrl);
-    }, [hubUrl]);
+        setPref('cont-name', contName);
+    }, [contName]);
 
     useEffect(() => {
         setPref('app', app);
@@ -56,8 +56,8 @@ function Form() {
     return <Box display="flex" flexDirection="column">
         <Heading sx={{ fontSize: 2, mb: 1 }}>Container Name</Heading>
 
-        <TextInput value={hubUrl} onChange={(ev) => setHubUrl(ev.target.value)} placeholder="jupyter" aria-label="Container Name" />
-        <Text color="danger.fg" sx={{ visibility: isValidHubUrl ? "hidden" : "visible" }}>Enter a container name</Text>
+        <TextInput value={contName} onChange={(ev) => setcontName(ev.target.value)} placeholder="jupyter" aria-label="Container Name" />
+        <Text color="danger.fg" sx={{ visibility: isValidcontName ? "hidden" : "visible" }}>Enter a container name</Text>
 
         <Heading sx={{ fontSize: 2, mb: 1, mt: 2 }}>Open in</Heading>
         <select className="form-select mb-1" onChange={(ev) => setApp(ev.target.value)} value={app}>
@@ -66,16 +66,16 @@ function Form() {
             })};
         </select>
 
-        <Button disabled={!isValidHubUrl || finishedCopying} sx={{ mt: 2 }} onClick={() => {
-            copyGeneratedUrl(hubUrl, app);
+        <Button disabled={!isValidcontName || finishedCopying} sx={{ mt: 2 }} onClick={() => {
+            copyGeneratedUrl(contName, app);
             // Flash a 'Copied!' message for 3 seconds after copying
             setFinishedCopying(true);
             setTimeout(() => setFinishedCopying(false), 3 * 1000)
         }}>
             <CopyIcon /> {finishedCopying ? "Copied!" : "Copy NCShare link"}
         </Button>
-        <Button disabled={!isValidHubUrl || finishedCopying} sx={{ mt: 2 }} onClick={() => {
-             openGeneratedUrl(hubUrl, app); 
+        <Button disabled={!isValidcontName || finishedCopying} sx={{ mt: 2 }} onClick={() => {
+             openGeneratedUrl(contName, app); 
         }}>
             <ZapIcon /> Open NCShare link
         </Button>
