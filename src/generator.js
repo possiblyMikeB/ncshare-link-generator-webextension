@@ -1,21 +1,23 @@
 function generateRegularUrl(hubUrl, repoUrl, branch, app, filepath) {
 
-    let url = new URL(hubUrl);
+    let url = new URL('https://cmgr.ncshare.org');
+    url.pathname += `containers/${hubUrl}`;
 
-    url.searchParams.set('repo', repoUrl);
-
+    let arg_url = new URL('https://dummy');
+    arg_url.pathname += 'git-pull';
+    arg_url.searchParams.set('repo', repoUrl);
 
     if (branch) {
-        url.searchParams.set('branch', branch);
+        arg_url.searchParams.set('branch', branch);
     }
 
-    if (!url.pathname.endsWith('/')) {
-        url.pathname += '/'
+    if (!arg_url.pathname.endsWith('/')) {
+        arg_url.pathname += '/'
     }
-    url.pathname += 'hub/user-redirect/git-pull';
+   	arg_url.searchParams.set('urlpath', AVAILABLE_APPS[app].generateUrlPath(filepath));
 
-   	url.searchParams.set('urlpath', AVAILABLE_APPS[app].generateUrlPath(filepath));
-
+    let redir_value = arg_url.pathname + arg_url.search;
+    url.searchParams.set('redirect', redir_value)
     return url.toString();
 }
 
