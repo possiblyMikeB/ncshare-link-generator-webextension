@@ -1,6 +1,6 @@
 {
-  "name": "nbgitpuller-link-generator",
-  "version": "1.0.0",
+  "name": "ncshare-link-generator",
+  "version": "0.1.0",
   "description": "",
   "private": true,
   "scripts": {
@@ -8,15 +8,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/yuvipanda/nbgitpuller-link-generator.git"
+    "url": "git+https://github.com/possiblyMikeB/ncshare-link-generator.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/yuvipanda/nbgitpuller-link-generator/issues"
+    "url": "thttps://github.com/possiblyMikeB/ncshare-link-generator/issues"
   },
-  "homepage": "https://github.com/yuvipanda/nbgitpuller-link-generator#readme",
+  "homepage": "https://github.com/possiblyMikeB/ncshare-link-generator#readme",
   "devDependencies": {
     "@babel/core": "^7.16.0",
     "@babel/preset-env": "^7.16.0",
