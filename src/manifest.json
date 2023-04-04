@@ -1,8 +1,8 @@
 {
 	"manifest_version": 2,
-	"name": "nbgitpuller Link generator",
-	"version": "1.0",
-	"description": "A browser extension to generate nbgitpuller (http://jupyterhub.github.io/nbgitpullerbgitpuller) links directly from GitHub",
+	"name": "NCShare Link generator",
+	"version": "0.1",
+	"description": "A browser extension to generate nbgitpuller (http://jupyterhub.github.io/nbgitpullerbgitpuller) links directly from GitHub for use with NCShare Container Manager",
 	"icons": {
 	},
 	"content_scripts": [
