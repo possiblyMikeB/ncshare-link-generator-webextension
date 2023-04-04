@@ -7,16 +7,23 @@ import GitUrlParse from 'git-url-parse';
 import { useState } from 'react';
 
 import { Button, Box, Text, Popover, Heading, ThemeProvider, TextInput } from '@primer/components';
-import { CopyIcon } from '@primer/octicons-react';
+import { CopyIcon, ZapIcon } from '@primer/octicons-react';
 
 import { AVAILABLE_APPS, generateRegularUrl } from './generator';
 import { getPref, setPref } from './prefs';
 
-function copyGeneratedUrl(hubUrl, app) {
+
+function buildUrl(hubUrl, app) {
     const parts = GitUrlParse(window.location.href);
     const repoUrl = `${parts.protocol}://${parts.source}/${parts.full_name}`;
-    const url = generateRegularUrl(hubUrl, repoUrl, parts.ref, app, parts.name + '/' + parts.filepath);
-    navigator.clipboard.writeText(url);
+    return generateRegularUrl(hubUrl, repoUrl, parts.ref, app, parts.name + '/' + parts.filepath);
+}
+function copyGeneratedUrl(hubUrl, app) {
+    navigator.clipboard.writeText(buildUrl(hubUrl, app));
+}
+
+function openGeneratedUrl(hubUrl, app) {
+    window.open(buildUrl(hubUrl, app));
 }
 
 function Form() {
@@ -27,7 +34,10 @@ function Form() {
 
     useEffect(() => {
         try {
-            new URL(hubUrl);
+            // TODO: Use potentially new API end-point to
+            //  validate container name against list of available
+
+            //new URL(hubUrl);
             // hubUrl is a valid URL
             setIsValidHubUrl(true);
         } catch (_) {
@@ -44,10 +54,10 @@ function Form() {
     }, [app])
 
     return <Box display="flex" flexDirection="column">
-        <Heading sx={{ fontSize: 2, mb: 1 }}>JupyterHub URL</Heading>
+        <Heading sx={{ fontSize: 2, mb: 1 }}>Container Name</Heading>
 
-        <TextInput value={hubUrl} onChange={(ev) => setHubUrl(ev.target.value)} placeholder="https://myjupyterhub.org" aria-label="JupyterHub URL" />
-        <Text color="danger.fg" sx={{ visibility: isValidHubUrl ? "hidden" : "visible" }}>Enter a valid URL</Text>
+        <TextInput value={hubUrl} onChange={(ev) => setHubUrl(ev.target.value)} placeholder="jupyter" aria-label="Container Name" />
+        <Text color="danger.fg" sx={{ visibility: isValidHubUrl ? "hidden" : "visible" }}>Enter a container name</Text>
 
         <Heading sx={{ fontSize: 2, mb: 1, mt: 2 }}>Open in</Heading>
         <select className="form-select mb-1" onChange={(ev) => setApp(ev.target.value)} value={app}>
@@ -62,8 +72,14 @@ function Form() {
             setFinishedCopying(true);
             setTimeout(() => setFinishedCopying(false), 3 * 1000)
         }}>
-            <CopyIcon /> {finishedCopying ? "Copied!" : "Copy nbgitpuller link"}
+            <CopyIcon /> {finishedCopying ? "Copied!" : "Copy NCShare link"}
         </Button>
+        <Button disabled={!isValidHubUrl || finishedCopying} sx={{ mt: 2 }} onClick={() => {
+             openGeneratedUrl(hubUrl, app); 
+        }}>
+            <ZapIcon /> Open NCShare link
+        </Button>
+
     </Box>
 }
 
@@ -73,7 +89,7 @@ function NBGitPullerButton() {
     // Using <details> here with details-overlay gives us behavior of closing the popover when clikced outside
     const b = <details className="details-overlay details-reset">
         <summary className="btn mr-2" onClick={() => setOpen(!open)}>
-            nbgitpuller <span className="dropdown-caret"></span>
+            NCShare <span className="dropdown-caret"></span>
         </summary>
 
 
@@ -107,7 +123,7 @@ function implementUgliestHackEverAt0430AMToKeepTheButtonFromDisappearingOnNav() 
             return;
         }
 
-        if (document.getElementById('nbgitpuller-link-generator')) {
+        if (document.getElementById('ncshare-link-generator')) {
             return;
         }
 
@@ -117,13 +133,13 @@ function implementUgliestHackEverAt0430AMToKeepTheButtonFromDisappearingOnNav() 
 }
 
 function setup() {
-    if (document.getElementById('nbgitpuller-link-generator')) {
-        console.log('nbgitpuller-link-generator already setup');
+    if (document.getElementById('ncshare-link-generator')) {
+        console.log('ncshare-link-generator already setup');
         return;
     }
     // Add 'nbgitpuller' dropdown button
     const root = document.createElement('div');
-    root.id = 'nbgitpuller-link-generator';
+    root.id = 'ncshare-link-generator';
 
     if (document.querySelector('.file-navigation > div.d-flex')) {
         // On a particular directory, insert this as first button, before 'Go to file'
