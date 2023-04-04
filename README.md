@@ -1,4 +1,4 @@
-# nbgitpuller Link Generator WebExtension
+# NCShare Link Generator WebExtension
 
 A browser extension to help you generate [nbgitpuller](https://jupyterhub.github.io/nbgitpuller/)
 links directly from GitHub which work with NCShare's container-manager service.
