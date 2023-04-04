@@ -1,7 +1,11 @@
-function generateRegularUrl(hubUrl, repoUrl, branch, app, filepath) {
+function generateRegularUrl(contName, repoUrl, branch, app, filepath) {
+
+    if(!contName) {
+        contName = "jupyter";
+    }
 
     let url = new URL('https://cmgr.ncshare.org');
-    url.pathname += `containers/${hubUrl}`;
+    url.pathname += `incommon_login/containers/${contName}`;
 
     let arg_url = new URL('https://dummy');
     arg_url.pathname += 'git-pull';
@@ -12,12 +16,12 @@ function generateRegularUrl(hubUrl, repoUrl, branch, app, filepath) {
     }
 
     if (!arg_url.pathname.endsWith('/')) {
-        arg_url.pathname += '/'
+        arg_url.pathname += '/';
     }
    	arg_url.searchParams.set('urlpath', AVAILABLE_APPS[app].generateUrlPath(filepath));
 
-    let redir_value = arg_url.pathname + arg_url.search;
-    url.searchParams.set('redirect', redir_value)
+    let redir_value = encodeURIComponent(arg_url.pathname + encodeURIComponent(arg_url.search));
+    url.pathname += `%3Fredirect=${redir_value}`;
     return url.toString();
 }
 
