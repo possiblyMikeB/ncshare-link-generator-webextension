@@ -1,24 +1,24 @@
 # nbgitpuller Link Generator WebExtension
 
 A browser extension to help you generate [nbgitpuller](https://jupyterhub.github.io/nbgitpuller/)
-links directly from GitHub.
+links directly from GitHub which work with NCShare's container-manager service.
 
 [Install Firefox Extension](https://addons.mozilla.org/en-US/firefox/addon/nbgitpuller-link-generator/?utm_source=addons.mozilla.org&utm_medium=referral&utm_content=search)
 
 ## What does this do?
 
 On the GitHub page for files, folders and repositories, it adds an
-'nbgitpuller' button.
+'NCShare' button.
 
-![nbgitpuller button](screenshot-button.png)
+![NCShare button](screenshot-button.png)
 
-On clicking this, you can enter a JupyterHub URL and the application
-you want to use to open this file, folder or repository. Then you
-can just copy the nbgitpuller URL, and share it with your students!
+On clicking this, you can enter the name of a [nbgitpuller](https://jupyterhub.github.io/nbgitpuller/) 
+enabled container image and the application you want to use to open this file, folder or repository. Then you
+can just copy the URL, and share it with your students! (or open it directly to test.)
 
 ![nbgitpuller popover](screenshot-popover.png)
 
-The JupyterHub URL and application you choose are remembered, so
+The container image name and application you choose are remembered, so
 you do not need to enter it over and over again.
 
 ## Installation
@@ -37,8 +37,8 @@ from the [the Chrome Web Store](https://chrome.google.com/webstore/detail/nbgitp
 
 ### On Firefox
 
-1. Download the `.zip` version of the latest [release](https://github.com/yuvipanda/nbgitpuller-link-generator/releases)
-   of the extension. You want the file named `nbgitpuller_link_generator-<version>.zip`.
+1. Download the `.zip` version of the latest [release](https://github.com/possiblyMikeB/ncshare-link-generator/releases)
+   of the extension. You want the file named `ncshare_link_generator-<version>.zip`.
 2. In your firefox, go to the [about:debugging](about:debugging#/runtime/this-firefox) page,
    and select the 'This Firefox' tab on the left.
 3. Under *Temporary Extensions*, click *Load Temporary Add-on...*.
@@ -50,8 +50,8 @@ You can find more information [here](https://developer.mozilla.org/en-US/docs/To
 
 ### On Google Chrome / Chromium
 
-1. Download the `.zip` version of the latest [release](https://github.com/yuvipanda/nbgitpuller-link-generator/releases)
-   of the extension. You want the file named `nbgitpuller_link_generator-<version>.zip`.
+1. Download the `.zip` version of the latest [release](https://github.com/possiblyMikeB/ncshare-link-generator/releases)
+   of the extension. You want the file named `ncshare_link_generator-<version>.zip`.
 2. Extract the `.zip` file you downloaded.
 3. In your Google Chrome / Chromium, go to [chrome://extensions](chrome://extensions/).
 4. Enable the *Developer Mode* toggle in the top right. This should make a few options visible
@@ -70,4 +70,4 @@ npx webpack --mode=production
 npx web-ext build -s dist/
 ```
 
-This produces a `.xpi` file in `web-ext-artifacts/` you can use.
+This produces a `.zip` file in `web-ext-artifacts/` you can use.
